@@ -1,6 +1,7 @@
 package uz.bob.card_transfers_with_security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,8 +16,15 @@ import java.util.List;
 @Service
 public class MyAuthService implements UserDetailsService {
 
+    @Lazy
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
+
+//    private final PasswordEncoder passwordEncoder;
+//    public MyAuthService(@Lazy PasswordEncoder passwordEncoder) {
+//        super();
+//        this.passwordEncoder = passwordEncoder;
+//    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

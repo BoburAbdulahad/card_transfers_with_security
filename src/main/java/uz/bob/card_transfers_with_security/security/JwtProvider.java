@@ -23,4 +23,27 @@ public class JwtProvider {
         return token;
     }
 
+    public boolean validateToken(String token){
+        try {
+            Date expiration = Jwts
+                    .parser()
+                    .setSigningKey(secret)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getExpiration();
+            return expiration.after(new Date());
+        }catch (Exception e){
+            return false;
+        }
+
+    }
+    public String getUsernameFromToken(String token){
+        String username = Jwts
+                .parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+        return username;
+    }
 }
