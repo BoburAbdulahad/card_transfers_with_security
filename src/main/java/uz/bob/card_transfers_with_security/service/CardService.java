@@ -10,6 +10,8 @@ import uz.bob.card_transfers_with_security.payload.ApiResponse;
 import uz.bob.card_transfers_with_security.repository.CardRepository;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class CardService {
 
@@ -21,7 +23,11 @@ public class CardService {
         Pageable pageable = PageRequest.of(page, size);
         Page<Card> cardPage = cardRepository.findAll(pageable);
         return cardPage.getContent();
+    }
 
+    public Card getCard(Integer id){
+        Optional<Card> optionalCard = cardRepository.findById(id);
+        return optionalCard.orElse(null);
     }
 
     public ApiResponse addCard(Card card) {
@@ -36,4 +42,6 @@ public class CardService {
         cardRepository.save(card1);
         return new ApiResponse("Card saved",true);
     }
+
+
 }

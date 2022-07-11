@@ -2,6 +2,7 @@ package uz.bob.card_transfers_with_security.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.bob.card_transfers_with_security.entity.Card;
@@ -20,6 +21,11 @@ public class CardController {
     public HttpEntity<?> getAllCards(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "3") int size){
         List<Card> cards = cardService.getCards(page,size);
         return ResponseEntity.ok(cards);
+    }
+    @GetMapping("/id")
+    public HttpEntity<Card> getCard(@PathVariable Integer id){
+        Card card = cardService.getCard(id);
+        return ResponseEntity.status(card!=null? HttpStatus.OK:HttpStatus.NOT_FOUND).body(card);
     }
 
     @PostMapping

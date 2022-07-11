@@ -22,7 +22,7 @@ public class Card {
     private String username;
 
     @Column(nullable = false,unique = true)
-    private long number;
+    private String number;
 
     @Column(nullable = false)
     private double balance;

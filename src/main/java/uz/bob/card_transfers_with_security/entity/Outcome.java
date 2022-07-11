@@ -27,6 +27,6 @@ public class Outcome {
 
     private Date date;
 
-    private double commissionAmount;
+    private String commissionAmount;
     
 }

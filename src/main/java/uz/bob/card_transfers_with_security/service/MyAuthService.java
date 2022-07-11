@@ -31,9 +31,11 @@ public class MyAuthService implements UserDetailsService {
 
         List<User> userList=new ArrayList<>(
                 Arrays.asList(
-                        new User("pdp", passwordEncoder.encode( "pdpUz"), new ArrayList<>()),
-                        new User("ecma", passwordEncoder.encode(  "ecmaUz"),new ArrayList<>()),
-                        new User("aif", passwordEncoder.encode( "aifUz"), new ArrayList<>())
+                        new User("bobur", passwordEncoder.encode( "555"), new ArrayList<>()),
+                        new User("ulugbek", passwordEncoder.encode(  "666"),new ArrayList<>()),
+                        new User("azizbek", passwordEncoder.encode( "777"), new ArrayList<>()),
+                        new User("husanboy", passwordEncoder.encode( "888"), new ArrayList<>()),
+                        new User("jahon", passwordEncoder.encode( "999"), new ArrayList<>())
                 )
         );
         for (User user : userList) {
