@@ -1,6 +1,8 @@
 package uz.bob.card_transfers_with_security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.bob.card_transfers_with_security.entity.Income;
 import uz.bob.card_transfers_with_security.entity.Outcome;
@@ -11,6 +13,7 @@ import uz.bob.card_transfers_with_security.repository.IncomeRepository;
 import uz.bob.card_transfers_with_security.repository.OutcomeRepository;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class IncomeService {
@@ -39,4 +42,9 @@ public class IncomeService {
         return new ApiResponse("Income saved",true);
     }
 
+    public List<Income> getIncomesByUsername(int page,int size,String name) {
+        Pageable pageable= PageRequest.of(page,size);
+        List<Income> incomeList = incomeRepository.findAllByToCard_Username(pageable,name);
+        return incomeList;
+    }
 }
