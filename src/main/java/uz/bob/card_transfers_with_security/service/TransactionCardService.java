@@ -1,6 +1,7 @@
 package uz.bob.card_transfers_with_security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import uz.bob.card_transfers_with_security.entity.Card;
@@ -36,10 +37,15 @@ public class TransactionCardService {
         Card card1 = optionalCard1.get();
         Card card2 = optionalCard2.get();
 
-        UserDetails userDetails = myAuthService.loadUserByUsername(card1.getUsername());
 
-        if (userDetails==null)
-            return new ApiResponse("This card not allowed for this user",false);
+        String userInSystem = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+//        UserDetails userDetails = myAuthService.loadUserByUsername(card1.getUsername());//this way very slowly worked
+
+//        if (!userDetails.getUsername().equals(userInSystem))
+
+        if (!userInSystem.equals(card1.getUsername()))
+             return new ApiResponse("This card not allowed for this user",false);
+
         boolean checkTransfer = checkTransfer(card1.getBalance(), transactionDto.getAmount(), 1);
         if (!checkTransfer)
             return new ApiResponse("Card1 balance not available",false);
@@ -73,4 +79,7 @@ public class TransactionCardService {
         double a=201000*1/100;
         System.out.println(a);
     }
+
+
+
 }
