@@ -1,6 +1,9 @@
 package uz.bob.card_transfers_with_security.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import uz.bob.card_transfers_with_security.entity.Outcome;
 import uz.bob.card_transfers_with_security.payload.ApiResponse;
@@ -10,6 +13,7 @@ import uz.bob.card_transfers_with_security.repository.IncomeRepository;
 import uz.bob.card_transfers_with_security.repository.OutcomeRepository;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class OutcomeService {
@@ -40,4 +44,9 @@ public class OutcomeService {
         return new ApiResponse("Outcome saved",true);
     }
 
+    public List<Outcome> getOutcomesByUsername(int page,int size,String username) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<Outcome> outcomeList = outcomeRepository.findAllByFromCard_Username(pageable, username);
+        return outcomeList;
+    }
 }

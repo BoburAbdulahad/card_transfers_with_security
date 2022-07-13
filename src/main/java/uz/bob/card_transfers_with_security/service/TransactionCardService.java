@@ -21,6 +21,9 @@ public class TransactionCardService {
     @Autowired
     IncomeService incomeService;
 
+    @Autowired
+    MyAuthService myAuthService;
+
     public ApiResponse add(TransactionDto transactionDto) {
         Optional<Card> optionalCard1 = cardRepository.findById(transactionDto.getFromCardId());
         if (!optionalCard1.isPresent()) {
@@ -32,19 +35,21 @@ public class TransactionCardService {
 
         Card card1 = optionalCard1.get();
         Card card2 = optionalCard2.get();
-        LoginDto loginDto=new LoginDto();
-        if (!card1.getUsername().equals(loginDto.getUsername()))
+
+        UserDetails userDetails = myAuthService.loadUserByUsername(card1.getUsername());
+
+        if (userDetails==null)
             return new ApiResponse("This card not allowed for this user",false);
         boolean checkTransfer = checkTransfer(card1.getBalance(), transactionDto.getAmount(), 1);
         if (!checkTransfer)
             return new ApiResponse("Card1 balance not available",false);
 
-        double transferMoney = transferMoney(transactionDto.getAmount(), 1);
+        double transferMoney = transferMoney( transactionDto.getAmount(), 1);
         double balance1 = card1.getBalance();
         double balance2 = card2.getBalance();
 
         card1.setBalance(balance1-transferMoney);
-        card2.setBalance(balance2+transferMoney);
+        card2.setBalance(balance2+ transactionDto.getAmount());
         cardRepository.save(card1);
         cardRepository.save(card2);
 
@@ -57,10 +62,15 @@ public class TransactionCardService {
     }
 
     public double transferMoney(double out,double rate){
-        return out*rate/100;
+        return out+out*rate/100;
     }
 
     public boolean checkTransfer(double total,double out,double rate){
         return out+ out*rate/100<=total;
+    }
+
+    public static void main(String[] args) {
+        double a=201000*1/100;
+        System.out.println(a);
     }
 }

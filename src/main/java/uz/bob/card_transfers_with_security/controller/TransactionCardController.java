@@ -12,7 +12,7 @@ import uz.bob.card_transfers_with_security.payload.TransactionDto;
 import uz.bob.card_transfers_with_security.service.TransactionCardService;
 
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/api/transaction")
 public class TransactionCardController {
 
     @Autowired
